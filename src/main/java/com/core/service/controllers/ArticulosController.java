@@ -20,7 +20,6 @@ import java.util.List;
 public class ArticulosController {
     private static final String MENSAJE_OBTENCION_DATOS = "Data Success";
     private static final String MENSAJE_DATOS_NO_ENCONTRADOS = "Data not found";
-
     @Autowired
     InterfaceArticulos service;
     @Operation(summary = "Listar Articulos")
