@@ -4,7 +4,7 @@ import com.core.service.entities.Articulos;
 
 import java.util.List;
 
-public interface InterfaceArticulos {
+public interface ArticulosServices {
     List<Articulos> getAllArticulos();
     Articulos getArticulosById(Integer id);
     void saveArticulos(Articulos articulos);

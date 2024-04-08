@@ -1,7 +1,7 @@
 package com.core.service.controllers;
 
-import com.core.service.entities.Articulos;
-import com.core.service.interfaces.ArticulosServices;
+import com.core.service.entities.Profecionales;
+import com.core.service.interfaces.ProfecionalesService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -17,18 +17,18 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-public class ArticulosController {
+public class ProfecionalesController {
     private static final String MENSAJE_OBTENCION_DATOS = "Data Success";
     private static final String MENSAJE_DATOS_NO_ENCONTRADOS = "Data not found";
     @Autowired
-    ArticulosServices service;
-    @Operation(summary = "Listar Articulos")
+    ProfecionalesService service;
+    @Operation(summary = "Listar Profesionales")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200" , description = MENSAJE_OBTENCION_DATOS, content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Articulos.class)) } ),
-            @ApiResponse(responseCode = "404" , description = MENSAJE_DATOS_NO_ENCONTRADOS, content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Articulos.class)) } )
+            @ApiResponse(responseCode = "200" , description = MENSAJE_OBTENCION_DATOS, content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Profecionales.class)) } ),
+            @ApiResponse(responseCode = "404" , description = MENSAJE_DATOS_NO_ENCONTRADOS, content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Profecionales.class)) } )
     })
-    @GetMapping(value = "/articulos", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Articulos>> getAll(){
-        return new ResponseEntity<>(service.getAllArticulos(), HttpStatus.OK);
+    @GetMapping(value = "/profesionales", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Profecionales>> getAll(){
+        return new ResponseEntity<>(service.getAllClientes(), HttpStatus.OK);
     }
 }
