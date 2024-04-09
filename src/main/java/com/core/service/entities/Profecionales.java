@@ -17,7 +17,7 @@ public class Profecionales {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer idprofecional;
     private Date fecha;
-    private String idagencia;
+    private Integer idagencia;
     private String status;
     private String password;
     private String nombrecliente;

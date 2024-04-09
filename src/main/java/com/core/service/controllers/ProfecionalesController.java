@@ -31,4 +31,6 @@ public class ProfecionalesController {
     public ResponseEntity<List<Profecionales>> getAll(){
         return new ResponseEntity<>(service.getAllClientes(), HttpStatus.OK);
     }
+
+
 }
