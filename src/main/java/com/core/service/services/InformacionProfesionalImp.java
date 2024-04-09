@@ -34,7 +34,7 @@ public class InformacionProfesionalImp implements InformacionProfesionalService 
     @Transactional
     public List<InformacionProfecionalResponse> getallProfesionales() {
         List<InformacionProfecionalResponse> list = new ArrayList<>();
-         profecionales.findAll().forEach((profecionales)->{
+        profecionales.findAll().forEach((profecionales) -> {
             InformacionProfecionalResponse profecionalResponse = new InformacionProfecionalResponse();
             profecionalResponse.setIdprofecional(profecionales.getIdprofecional());
             profecionalResponse.setFecha(profecionales.getFecha());
@@ -44,7 +44,7 @@ public class InformacionProfesionalImp implements InformacionProfesionalService 
             profecionalResponse.setNombrecliente(profecionales.getNombrecliente());
             Agencias agn = getAgencias(profecionales.getIdagencia());
             profecionalResponse.setAgencia(agn);
-            List<Cursos> cursos =  getCursos(profecionales.getIdprofecional());
+            List<Cursos> cursos = getCursos(profecionales.getIdprofecional());
             profecionalResponse.setCursos(cursos);
             list.add(profecionalResponse);
         });
@@ -54,19 +54,19 @@ public class InformacionProfesionalImp implements InformacionProfesionalService 
     @Override
     public List<Cursos> getCursos(Integer idProfecional) {
         List<Cursos> listas = new ArrayList<>();
-        List<Articulosdeprofecionales> detalle =  cursosdetalle.findByIdprofecional(idProfecional);
-        detalle.forEach((datos)->{
-          Cursos cursos = new Cursos();
-          Articulos art = getArticulo(datos.getIdarticulo());
-          cursos.setCurso(art.getNombre());
-          cursos.setCodigo(art.getCodigo());
-          cursos.setDescripcion(art.getDescripcion());
-          cursos.setFecha(datos.getFecha());
-          cursos.setEstatus(validaEstatus(datos.getEstatus()));
-          cursos.setNocertificado(datos.getNocertificado());
+        List<Articulosdeprofecionales> detalle = cursosdetalle.findByIdprofecional(idProfecional);
+        detalle.forEach((datos) -> {
+            Cursos cursos = new Cursos();
+            Articulos art = getArticulo(datos.getIdarticulo());
+            cursos.setCurso(art.getNombre());
+            cursos.setCodigo(art.getCodigo());
+            cursos.setDescripcion(art.getDescripcion());
+            cursos.setFecha(datos.getFecha());
+            cursos.setEstatus(validaEstatus(datos.getEstatus()));
+            cursos.setNocertificado(datos.getNocertificado());
             listas.add(cursos);
-          });
-          return listas;
+        });
+        return listas;
     }
 
     @Override
@@ -79,24 +79,13 @@ public class InformacionProfesionalImp implements InformacionProfesionalService 
         return articulos.findById(idArticulo.longValue()).get();
     }
 
-    public String validaEstatus(String estatus){
-        String status ="";
-        switch (estatus) {
-            case "A":
-                status ="Activo";
-                break;
-            case "C":
-                status ="Certificado";
-                break;
-            case "R" :
-                status ="Registrado";
-                break;
-            case "B" :
-                status ="Bloqueado";
-                break;
-            default:
-                status ="estatus";
-        }
-        return status;
+    public String validaEstatus(String estatus) {
+        return switch (estatus) {
+            case "A" -> "Activo";
+            case "C" -> "Certificado";
+            case "R" -> "Registrado";
+            case "B" -> "Bloqueado";
+            default -> "Unknown";
+        };
     }
 }

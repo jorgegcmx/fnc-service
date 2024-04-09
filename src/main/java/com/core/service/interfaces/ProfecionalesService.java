@@ -7,5 +7,5 @@ import java.util.List;
 public interface ProfecionalesService {
     List<Profecionales> getAllClientes();
     Profecionales getClientesById(Integer id);
-    void saveClientes(Profecionales clientes);
+    void saveClientes(Profecionales profecionales);
 }

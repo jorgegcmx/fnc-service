@@ -16,7 +16,7 @@ import java.sql.Date;
 public class Articulosdeprofecionales {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Integer idarticulo;
     private String nocertificado;

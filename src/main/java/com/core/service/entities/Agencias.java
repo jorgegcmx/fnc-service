@@ -13,7 +13,7 @@ import lombok.Setter;
 public class Agencias {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idclientes;
     private String email_cliente;
     private String contrasena_cliente;

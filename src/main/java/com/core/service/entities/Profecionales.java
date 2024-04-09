@@ -14,7 +14,7 @@ import java.sql.Date;
 @Entity
 public class Profecionales {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idprofecional;
     private Date fecha;
     private Integer idagencia;

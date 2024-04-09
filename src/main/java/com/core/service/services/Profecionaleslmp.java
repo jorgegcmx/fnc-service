@@ -12,10 +12,10 @@ import java.util.List;
 public class Profecionaleslmp implements ProfecionalesService {
 
     @Autowired
-    private RepositoryProfecionales repositoryAgencias;
+    private RepositoryProfecionales repository;
     @Override
     public List<Profecionales> getAllClientes() {
-        return (List<Profecionales>) repositoryAgencias.findAll();
+        return (List<Profecionales>) repository.findAll();
     }
 
     @Override
@@ -24,7 +24,7 @@ public class Profecionaleslmp implements ProfecionalesService {
     }
 
     @Override
-    public void saveClientes(Profecionales articulos) {
-
+    public void saveClientes(Profecionales profecionales) {
+     repository.save(profecionales);
     }
 }
