@@ -39,7 +39,7 @@ public class InformacionProfesionalImp implements InformacionProfesionalService 
             profecionalResponse.setIdprofecional(profecionales.getIdprofecional());
             profecionalResponse.setFecha(profecionales.getFecha());
             profecionalResponse.setPassword(profecionales.getPassword());
-            profecionalResponse.setEmail_cliente(profecionales.getEmail_cliente());
+            profecionalResponse.setEmail_cliente(profecionales.getEmailcliente());
             profecionalResponse.setStatus(validaEstatus(profecionales.getStatus()));
             profecionalResponse.setNombrecliente(profecionales.getNombrecliente());
             Agencias agn = getAgencias(profecionales.getIdagencia());

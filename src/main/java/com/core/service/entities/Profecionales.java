@@ -21,5 +21,6 @@ public class Profecionales {
     private String status;
     private String password;
     private String nombrecliente;
-    private String email_cliente;
+    private String emailcliente;
+    private String activado;
 }
