@@ -32,7 +32,7 @@ public class EmailImp implements EmailService {
 
     @Override
     public String ActivateEmail(String email) {
-       Profecionales profecionales = profecionalesRepository.findByEmailcliente(email);
+       Profecionales profecionales = profecionalesRepository.findByEmailcliente(encriptaBase64.decode(email));
        profecionales.setActivado("SI");
        profecionalesRepository.save(profecionales);
         return "ok";
