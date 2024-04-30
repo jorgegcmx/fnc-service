@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RepositoryProfecionales extends CrudRepository<Profecionales,Long> {
 Profecionales findByEmailcliente(String email);
+Profecionales findByEmailclienteAndPassword(String email, String password);
 }
