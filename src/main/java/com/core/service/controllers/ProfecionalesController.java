@@ -31,6 +31,15 @@ public class ProfecionalesController {
     public ResponseEntity<List<Profecionales>> getAll(){
         return new ResponseEntity<>(service.getAllClientes(), HttpStatus.OK);
     }
+    @Operation(summary = "Listar por id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200" , description = MENSAJE_OBTENCION_DATOS, content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Profecionales.class)) } ),
+            @ApiResponse(responseCode = "404" , description = MENSAJE_DATOS_NO_ENCONTRADOS, content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Profecionales.class)) } )
+    })
+    @GetMapping(value = "/lista/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Profecionales> getById(@PathVariable Integer id){
+        return new ResponseEntity<>(service.getClientesById(id), HttpStatus.OK);
+    }
 
     @Operation(summary = "Registra y Actualiza Profesionales")
     @ApiResponses(value = {

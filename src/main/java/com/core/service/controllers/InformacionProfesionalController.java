@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,5 +35,15 @@ public class InformacionProfesionalController {
     @GetMapping(value = "/historico", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<InformacionProfecionalResponse>> getAll(){
         return new ResponseEntity<>(service.getallProfesionales(), HttpStatus.OK);
+    }
+
+    @Operation(summary = "Historial profesional")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200" , description = MENSAJE_OBTENCION_DATOS, content = {@Content(mediaType = "application/json", schema = @Schema(implementation = InformacionProfecionalResponse.class)) } ),
+            @ApiResponse(responseCode = "404" , description = MENSAJE_DATOS_NO_ENCONTRADOS, content = {@Content(mediaType = "application/json", schema = @Schema(implementation = InformacionProfecionalResponse.class)) } )
+    })
+    @GetMapping(value = "/historico_profecional/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<InformacionProfecionalResponse> getById(@PathVariable Integer id){
+        return new ResponseEntity<>(service.getProfesionalById(id), HttpStatus.OK);
     }
 }

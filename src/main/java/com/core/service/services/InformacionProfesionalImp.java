@@ -6,6 +6,7 @@ import com.core.service.dto.InformacionProfecionalResponse;
 import com.core.service.entities.Agencias;
 import com.core.service.entities.Articulos;
 import com.core.service.entities.Articulosdeprofecionales;
+import com.core.service.entities.Profecionales;
 import com.core.service.interfaces.InformacionProfesionalService;
 import com.core.service.repositories.RepositoryAgencias;
 import com.core.service.repositories.RepositoryArticulos;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class InformacionProfesionalImp implements InformacionProfesionalService {
@@ -49,6 +51,24 @@ public class InformacionProfesionalImp implements InformacionProfesionalService 
             list.add(profecionalResponse);
         });
         return list;
+    }
+
+    @Override
+    public InformacionProfecionalResponse getProfesionalById(Integer id) {
+           Optional<Profecionales> profecional =  profecionales.findById(id.longValue());
+            InformacionProfecionalResponse profecionalResponse = new InformacionProfecionalResponse();
+            profecionalResponse.setIdprofecional(profecional.get().getIdprofecional());
+            profecionalResponse.setFecha(profecional.get().getFecha());
+            profecionalResponse.setPassword(profecional.get().getPassword());
+            profecionalResponse.setEmail_cliente(profecional.get().getEmailcliente());
+            profecionalResponse.setStatus(validaEstatus(profecional.get().getStatus()));
+            profecionalResponse.setNombrecliente(profecional.get().getNombrecliente());
+            Agencias agn = getAgencias(profecional.get().getIdagencia());
+            profecionalResponse.setAgencia(agn);
+            List<Cursos> cursos = getCursos(profecional.get().getIdprofecional());
+            profecionalResponse.setCursos(cursos);
+
+        return profecionalResponse;
     }
 
     @Override

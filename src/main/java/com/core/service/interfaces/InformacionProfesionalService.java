@@ -10,6 +10,7 @@ import java.util.List;
 
 public  interface  InformacionProfesionalService {
      List<InformacionProfecionalResponse> getallProfesionales();
+     InformacionProfecionalResponse getProfesionalById(Integer id);
      List<Cursos> getCursos(Integer idProfecional);
      Agencias getAgencias(Integer idAgencia);
      Articulos getArticulo(Integer idArticulo);
