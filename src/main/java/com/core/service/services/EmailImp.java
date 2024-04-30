@@ -1,5 +1,6 @@
 package com.core.service.services;
 
+import com.core.service.dto.RecuperarContrasenaResponse;
 import com.core.service.entities.Profecionales;
 import com.core.service.interfaces.EmailService;
 import com.core.service.repositories.RepositoryProfecionales;
@@ -36,5 +37,23 @@ public class EmailImp implements EmailService {
        profecionales.setActivado("SI");
        profecionalesRepository.save(profecionales);
         return "ok";
+    }
+
+    @Override
+    public RecuperarContrasenaResponse recupera(String email) {
+        RecuperarContrasenaResponse response = new RecuperarContrasenaResponse();
+        try {
+            Profecionales profecionales = profecionalesRepository.findByEmailcliente(email);
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setFrom("funcaes.mail@gmail.com");
+            message.setTo(email);
+            message.setSubject("Funcaes Datos de Acceso");
+            message.setText("Email: "+profecionales.getEmailcliente()+" Contraseña: "+profecionales.getPassword());
+            emailSender.send(message);
+            response.setEnviado(true);
+        }catch (Exception e){
+            response.setEnviado(false);
+        }
+        return response;
     }
 }

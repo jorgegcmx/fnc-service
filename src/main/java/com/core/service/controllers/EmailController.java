@@ -1,5 +1,6 @@
 package com.core.service.controllers;
 
+import com.core.service.dto.RecuperarContrasenaResponse;
 import com.core.service.entities.Agencias;
 import com.core.service.entities.Articulos;
 import com.core.service.interfaces.EmailService;
@@ -36,6 +37,16 @@ public class EmailController {
     @GetMapping(value = "/send/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> send(@PathVariable String email){
         return new ResponseEntity<>(service.sendEmail(email), HttpStatus.OK);
+    }
+
+    @Operation(summary = "Reenvia Datos de Acceso")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200" , description = MENSAJE_OBTENCION_DATOS, content = {@Content(mediaType = "application/json", schema = @Schema(implementation = RecuperarContrasenaResponse.class)) } ),
+            @ApiResponse(responseCode = "404" , description = MENSAJE_DATOS_NO_ENCONTRADOS, content = {@Content(mediaType = "application/json", schema = @Schema(implementation = RecuperarContrasenaResponse.class)) } )
+    })
+    @GetMapping(value = "/resend/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<RecuperarContrasenaResponse> resend(@PathVariable String email){
+        return new ResponseEntity<>(service.recupera(email), HttpStatus.OK);
     }
 
     @Operation(summary = "Activa email")
