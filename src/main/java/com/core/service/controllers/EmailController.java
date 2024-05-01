@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.UnknownHostException;
 import java.util.List;
 
 
@@ -35,7 +36,7 @@ public class EmailController {
             @ApiResponse(responseCode = "404" , description = MENSAJE_DATOS_NO_ENCONTRADOS, content = {@Content(mediaType = "application/json", schema = @Schema(implementation = String.class)) } )
     })
     @GetMapping(value = "/send/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> send(@PathVariable String email){
+    public ResponseEntity<String> send(@PathVariable String email) throws UnknownHostException {
         return new ResponseEntity<>(service.sendEmail(email), HttpStatus.OK);
     }
 

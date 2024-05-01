@@ -55,7 +55,7 @@ public class InformacionProfesionalImp implements InformacionProfesionalService 
 
     @Override
     public InformacionProfecionalResponse getProfesionalById(Integer id) {
-           Optional<Profecionales> profecional =  profecionales.findById(id.longValue());
+           Optional<Profecionales> profecional =  profecionales.findById(id);
             InformacionProfecionalResponse profecionalResponse = new InformacionProfecionalResponse();
             profecionalResponse.setIdprofecional(profecional.get().getIdprofecional());
             profecionalResponse.setFecha(profecional.get().getFecha());

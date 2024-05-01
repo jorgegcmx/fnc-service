@@ -1,5 +1,6 @@
 package com.core.service.controllers;
 
+import com.core.service.dto.GuardaProfecionalResponse;
 import com.core.service.entities.Profecionales;
 import com.core.service.interfaces.ProfecionalesService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -47,9 +48,8 @@ public class ProfecionalesController {
             @ApiResponse(responseCode = "404" , description = MENSAJE_DATOS_NO_ENCONTRADOS, content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Profecionales.class)) } )
     })
     @PostMapping(value = "/registro", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> save(@RequestBody Profecionales profecionales){
-        service.saveClientes(profecionales);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<GuardaProfecionalResponse> save(@RequestBody Profecionales profecionales){
+         return new ResponseEntity<>(service.saveClientes(profecionales),HttpStatus.OK);
     }
 
 
