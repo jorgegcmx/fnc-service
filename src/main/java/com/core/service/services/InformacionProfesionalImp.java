@@ -84,6 +84,7 @@ public class InformacionProfesionalImp implements InformacionProfesionalService 
             cursos.setFecha(datos.getFecha());
             cursos.setEstatus(validaEstatus(datos.getEstatus()));
             cursos.setNocertificado(datos.getNocertificado());
+            cursos.setFecha_registro(datos.getFecha_registro());
             listas.add(cursos);
         });
         return listas;

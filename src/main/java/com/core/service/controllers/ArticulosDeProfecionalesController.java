@@ -1,5 +1,6 @@
 package com.core.service.controllers;
 
+import com.core.service.dto.GuardaProfecionalResponse;
 import com.core.service.entities.Articulosdeprofecionales;
 import com.core.service.entities.Profecionales;
 import com.core.service.interfaces.ArticulosProfecionalesService;
@@ -13,9 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -34,5 +33,15 @@ public class ArticulosDeProfecionalesController {
     @GetMapping(value = "/lista", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Articulosdeprofecionales>> getAll(){
         return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
+    }
+
+    @Operation(summary = "registro de curso")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200" , description = MENSAJE_OBTENCION_DATOS, content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Articulosdeprofecionales.class)) } ),
+            @ApiResponse(responseCode = "404" , description = MENSAJE_DATOS_NO_ENCONTRADOS, content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Articulosdeprofecionales.class)) } )
+    })
+    @PostMapping(value = "/guarda", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<GuardaProfecionalResponse> save(@RequestBody Articulosdeprofecionales request){
+        return new ResponseEntity<>(service.save(request), HttpStatus.OK);
     }
 }

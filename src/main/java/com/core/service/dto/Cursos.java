@@ -12,4 +12,5 @@ public class Cursos {
     private String estatus;
     private String codigo;
     private String descripcion;
+    private Date fecha_registro;
 }

@@ -24,4 +24,5 @@ public class Articulosdeprofecionales {
     private Double costo;
     private Integer idprofecional;
     private String estatus;
+    private Date fecha_registro;
 }
