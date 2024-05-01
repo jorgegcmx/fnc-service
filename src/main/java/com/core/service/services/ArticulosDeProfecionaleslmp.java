@@ -34,7 +34,7 @@ public class ArticulosDeProfecionaleslmp implements ArticulosProfecionalesServic
             articulos.setFecha_registro(dateNow.FechaActual());
            Articulosdeprofecionales registro = repository.save(articulos);
            if(registro != null){
-               response.setSmg("ok");
+               response.setSmg("¡Se registro de forma correcta al curso !");
            }
        }catch (Exception e){
             response.setSmg("error");
