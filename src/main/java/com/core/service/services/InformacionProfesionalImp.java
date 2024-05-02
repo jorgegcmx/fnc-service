@@ -85,6 +85,12 @@ public class InformacionProfesionalImp implements InformacionProfesionalService 
             cursos.setEstatus(validaEstatus(datos.getEstatus()));
             cursos.setNocertificado(datos.getNocertificado());
             cursos.setFecha_registro(datos.getFecha_registro());
+            cursos.setId_pay(datos.getId_pay());
+            cursos.setStatus_pay(datos.getStatus_pay());
+            cursos.setNombre_pay(datos.getNombre_pay());
+            cursos.setEmail_pay(datos.getEmail_pay());
+            cursos.setTotal_pay(datos.getTotal_pay());
+            cursos.setMethod_pay(datos.getMethod_pay());
             listas.add(cursos);
         });
         return listas;
