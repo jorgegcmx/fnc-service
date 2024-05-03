@@ -55,8 +55,9 @@ public class InformacionProfesionalImp implements InformacionProfesionalService 
 
     @Override
     public InformacionProfecionalResponse getProfesionalById(Integer id) {
-           Optional<Profecionales> profecional =  profecionales.findById(id);
-            InformacionProfecionalResponse profecionalResponse = new InformacionProfecionalResponse();
+        InformacionProfecionalResponse profecionalResponse = new InformacionProfecionalResponse();
+        try {
+            Optional<Profecionales> profecional =  profecionales.findById(id);
             profecionalResponse.setIdprofecional(profecional.get().getIdprofecional());
             profecionalResponse.setFecha(profecional.get().getFecha());
             profecionalResponse.setPassword(profecional.get().getPassword());
@@ -66,7 +67,15 @@ public class InformacionProfesionalImp implements InformacionProfesionalService 
             Agencias agn = getAgencias(profecional.get().getIdagencia());
             profecionalResponse.setAgencia(agn);
             List<Cursos> cursos = getCursos(profecional.get().getIdprofecional());
+            profecionalResponse.setCursos(cursos); 
+        }catch (Exception exception){
+            System.out.println("exception = " + exception);
+            profecionalResponse = new InformacionProfecionalResponse();
+            Agencias agn = new Agencias();
+            profecionalResponse.setAgencia(agn);
+            List<Cursos> cursos = new ArrayList<>();
             profecionalResponse.setCursos(cursos);
+        }          
 
         return profecionalResponse;
     }
@@ -98,12 +107,12 @@ public class InformacionProfesionalImp implements InformacionProfesionalService 
 
     @Override
     public Agencias getAgencias(Integer idAgencia) {
-        return agencias.findById(idAgencia.longValue()).get();
+        return agencias.findById(idAgencia).get();
     }
 
     @Override
     public Articulos getArticulo(Integer idArticulo) {
-        return articulos.findById(idArticulo.longValue()).get();
+        return articulos.findById(idArticulo).get();
     }
 
     public String validaEstatus(String estatus) {

@@ -1,5 +1,6 @@
 package com.core.service.controllers;
 
+import com.core.service.dto.ConsultaCertificado;
 import com.core.service.dto.GuardaProfecionalResponse;
 import com.core.service.entities.Articulosdeprofecionales;
 import com.core.service.entities.Profecionales;
@@ -43,5 +44,15 @@ public class ArticulosDeProfecionalesController {
     @PostMapping(value = "/guarda", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<GuardaProfecionalResponse> save(@RequestBody Articulosdeprofecionales request){
         return new ResponseEntity<>(service.save(request), HttpStatus.OK);
+    }
+
+    @Operation(summary = "registro de curso")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200" , description = MENSAJE_OBTENCION_DATOS, content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Articulosdeprofecionales.class)) } ),
+            @ApiResponse(responseCode = "404" , description = MENSAJE_DATOS_NO_ENCONTRADOS, content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Articulosdeprofecionales.class)) } )
+    })
+    @GetMapping(value = "/burcarCer/{cer}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ConsultaCertificado> save(@PathVariable String cer){
+        return new ResponseEntity<>(service.bucarCer(cer), HttpStatus.OK);
     }
 }

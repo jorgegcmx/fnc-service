@@ -14,4 +14,6 @@ public  interface  InformacionProfesionalService {
      List<Cursos> getCursos(Integer idProfecional);
      Agencias getAgencias(Integer idAgencia);
      Articulos getArticulo(Integer idArticulo);
+
+
 }

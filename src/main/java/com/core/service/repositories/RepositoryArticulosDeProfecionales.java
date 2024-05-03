@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface RepositoryArticulosDeProfecionales extends CrudRepository<Articulosdeprofecionales,Long> {
     List<Articulosdeprofecionales> findByIdprofecional(Integer idProfesional);
+
+    Articulosdeprofecionales findByNocertificado(String cer);
 }

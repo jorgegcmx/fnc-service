@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface RepositoryArticulos extends CrudRepository<Articulos,Long> {
+public interface RepositoryArticulos extends CrudRepository<Articulos,Integer> {
     List<Articulos> findByNombreContaining(String nombre);
 }
