@@ -2,6 +2,7 @@ package com.core.service.controllers;
 
 import com.core.service.dto.ConsultaCertificado;
 import com.core.service.dto.GuardaProfecionalResponse;
+import com.core.service.dto.SolicitudesResponse;
 import com.core.service.entities.Articulosdeprofecionales;
 import com.core.service.entities.Profecionales;
 import com.core.service.interfaces.ArticulosProfecionalesService;
@@ -32,7 +33,7 @@ public class ArticulosDeProfecionalesController {
             @ApiResponse(responseCode = "404" , description = MENSAJE_DATOS_NO_ENCONTRADOS, content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Articulosdeprofecionales.class)) } )
     })
     @GetMapping(value = "/lista", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Articulosdeprofecionales>> getAll(){
+    public ResponseEntity<List<SolicitudesResponse>> getAll(){
         return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
     }
 

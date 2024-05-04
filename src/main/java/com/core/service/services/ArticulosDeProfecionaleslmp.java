@@ -3,6 +3,7 @@ package com.core.service.services;
 
 import com.core.service.dto.ConsultaCertificado;
 import com.core.service.dto.GuardaProfecionalResponse;
+import com.core.service.dto.SolicitudesResponse;
 import com.core.service.entities.Agencias;
 import com.core.service.entities.Articulos;
 import com.core.service.entities.Articulosdeprofecionales;
@@ -14,9 +15,13 @@ import com.core.service.repositories.RepositoryArticulosDeProfecionales;
 import com.core.service.repositories.RepositoryProfecionales;
 import com.core.service.utils.DateNow;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ArticulosDeProfecionaleslmp implements ArticulosProfecionalesService {
@@ -34,8 +39,37 @@ public class ArticulosDeProfecionaleslmp implements ArticulosProfecionalesServic
     @Autowired
     private RepositoryArticulos repositoryArticulos;
     @Override
-    public List<Articulosdeprofecionales> getAll() {
-        return (List<Articulosdeprofecionales>) repository.findAll();
+    public List<SolicitudesResponse> getAll() {
+        List<SolicitudesResponse> response = new ArrayList<>();
+        try {
+            Iterable<Articulosdeprofecionales> solicitudes =  repository.findAll(Sort.by(Sort.Direction.DESC, "id"));
+                solicitudes.forEach((so)->{
+                SolicitudesResponse res = new SolicitudesResponse();
+                Articulos articulos = repositoryArticulos.findById(so.getIdarticulo()).get();
+                Profecionales profecionales = repositoryProfecionales.findById(so.getIdprofecional()).get();
+                //Agencias agencias = repositoryAgencias.findById(profecionales.getIdagencia()).get();
+                res.setId(so.getId());
+                res.setFecha(so.getFecha());
+                res.setCosto(so.getCosto());
+                res.setIdprofecional(so.getIdprofecional());
+                res.setEstatus(so.getEstatus().equalsIgnoreCase("C")?"CERTIFICADO":"REGISTRADO");
+                res.setIdarticulo(so.getIdarticulo());
+                res.setNocertificado(so.getNocertificado());
+                res.setEmail_pay(so.getEmail_pay());
+                res.setId_pay(so.getId_pay());
+                res.setMethod_pay(so.getMethod_pay());
+                res.setNombre_pay(so.getNombre_pay());
+                res.setTotal_pay(so.getTotal_pay());
+                res.setStatus_pay(so.getStatus_pay());
+                res.setNombre(profecionales.getNombrecliente());
+                res.setCurso(articulos.getNombre());
+                    response.add(res);
+            });
+
+        }catch (Exception e){
+            return response;
+        }
+        return response;
     }
 
     @Override
@@ -47,11 +81,23 @@ public class ArticulosDeProfecionaleslmp implements ArticulosProfecionalesServic
     public GuardaProfecionalResponse save(Articulosdeprofecionales articulos) {
         GuardaProfecionalResponse response= new  GuardaProfecionalResponse();
         try {
-            articulos.setFecha_registro(dateNow.FechaActual());
-           Articulosdeprofecionales registro = repository.save(articulos);
-           if(registro != null){
-               response.setSmg("¡Se registro de forma correcta al curso !");
-           }
+            Optional<Articulosdeprofecionales> find = repository.findById(articulos.getId());
+            if(find.isPresent()){
+                find.get().setFecha(articulos.getFecha());
+                find.get().setNocertificado(articulos.getNocertificado());
+                find.get().setEstatus("C");
+                Articulosdeprofecionales registro = repository.save(find.get());
+                if (registro != null) {
+                    response.setArticulosdeprofecionales(registro);
+                    response.setSmg("¡Se registro de forma correcta al curso !");
+                }
+            }else {
+                articulos.setFecha_registro(dateNow.FechaActual());
+                Articulosdeprofecionales registro = repository.save(articulos);
+                if (registro != null) {
+                    response.setSmg("¡Se registro de forma correcta al curso !");
+                }
+            }
        }catch (Exception e){
             response.setSmg("error");
        }
@@ -63,7 +109,7 @@ public class ArticulosDeProfecionaleslmp implements ArticulosProfecionalesServic
     public ConsultaCertificado bucarCer(String cer) {
         ConsultaCertificado certificado = new ConsultaCertificado();
         try {
-            Articulosdeprofecionales articulosdeprofecionales =  repository.findByNocertificado(cer.trim());
+            Articulosdeprofecionales articulosdeprofecionales =  repository.findByNocertificadoAndEstatus(cer.trim(),"C");
             Profecionales profecionales= repositoryProfecionales.findById(articulosdeprofecionales.getIdprofecional()).get();
             Agencias agencias = repositoryAgencias.findById(profecionales.getIdagencia()).get();
             Articulos articulos = repositoryArticulos.findById(articulosdeprofecionales.getIdarticulo()).get();
