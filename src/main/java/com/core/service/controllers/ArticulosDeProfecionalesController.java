@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -32,9 +33,9 @@ public class ArticulosDeProfecionalesController {
             @ApiResponse(responseCode = "200" , description = MENSAJE_OBTENCION_DATOS, content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Articulosdeprofecionales.class)) } ),
             @ApiResponse(responseCode = "404" , description = MENSAJE_DATOS_NO_ENCONTRADOS, content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Articulosdeprofecionales.class)) } )
     })
-    @GetMapping(value = "/lista", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<SolicitudesResponse>> getAll(){
-        return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
+    @GetMapping(value = "/lista/{nombre}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<SolicitudesResponse>> getAll(@PathVariable String nombre){
+        return new ResponseEntity<>(service.getAll(nombre), HttpStatus.OK);
     }
 
     @Operation(summary = "registro de curso")

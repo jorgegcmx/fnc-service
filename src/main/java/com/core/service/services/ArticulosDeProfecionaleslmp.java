@@ -38,21 +38,25 @@ public class ArticulosDeProfecionaleslmp implements ArticulosProfecionalesServic
 
     @Autowired
     private RepositoryArticulos repositoryArticulos;
+
     @Override
-    public List<SolicitudesResponse> getAll() {
+    public List<SolicitudesResponse> getAll(String nombre) {
+        long inicio = System.currentTimeMillis();
         List<SolicitudesResponse> response = new ArrayList<>();
+        List<SolicitudesResponse> responseByNombre = new ArrayList<>();
         try {
-            Iterable<Articulosdeprofecionales> solicitudes =  repository.findAll(Sort.by(Sort.Direction.DESC, "id"));
-                solicitudes.forEach((so)->{
+            Iterable<Articulosdeprofecionales> solicitudes = repository.findAll(Sort.by(Sort.Direction.DESC, "id"));
+            solicitudes.forEach((so) -> {
                 SolicitudesResponse res = new SolicitudesResponse();
-                Articulos articulos = repositoryArticulos.findById(so.getIdarticulo()).get();
-                Profecionales profecionales = repositoryProfecionales.findById(so.getIdprofecional()).get();
+                SolicitudesResponse resByNombre = new SolicitudesResponse();
+                String articulos = repositoryArticulos.buscaPorIdSoloNombre(so.getIdarticulo());
+                String profecionales = repositoryProfecionales.buscaPorIdSoloNombre(so.getIdprofecional());
                 //Agencias agencias = repositoryAgencias.findById(profecionales.getIdagencia()).get();
                 res.setId(so.getId());
                 res.setFecha(so.getFecha());
                 res.setCosto(so.getCosto());
                 res.setIdprofecional(so.getIdprofecional());
-                res.setEstatus(so.getEstatus().equalsIgnoreCase("C")?"CERTIFICADO":"REGISTRADO");
+                res.setEstatus(so.getEstatus().equalsIgnoreCase("C") ? "CERTIFICADO" : "REGISTRADO");
                 res.setIdarticulo(so.getIdarticulo());
                 res.setNocertificado(so.getNocertificado());
                 res.setEmail_pay(so.getEmail_pay());
@@ -61,15 +65,22 @@ public class ArticulosDeProfecionaleslmp implements ArticulosProfecionalesServic
                 res.setNombre_pay(so.getNombre_pay());
                 res.setTotal_pay(so.getTotal_pay());
                 res.setStatus_pay(so.getStatus_pay());
-                res.setNombre(profecionales.getNombrecliente());
-                res.setCurso(articulos.getNombre());
-                    response.add(res);
+                res.setNombre(profecionales);
+                res.setCurso(articulos);
+                response.add(res);
+                if (res.getNombre().contains(nombre)) {
+                    responseByNombre.add(res);
+                }
             });
 
-        }catch (Exception e){
+        } catch (Exception e) {
             return response;
         }
-        return response;
+        long fin = System.currentTimeMillis();
+        double tiempo = (double) ((fin - inicio) / 1000);
+        System.out.println(tiempo + " segundos");
+
+        return responseByNombre.isEmpty()?response:responseByNombre;
     }
 
     @Override
@@ -79,29 +90,29 @@ public class ArticulosDeProfecionaleslmp implements ArticulosProfecionalesServic
 
     @Override
     public GuardaProfecionalResponse save(Articulosdeprofecionales articulos) {
-        GuardaProfecionalResponse response= new  GuardaProfecionalResponse();
+        GuardaProfecionalResponse response = new GuardaProfecionalResponse();
         try {
             Optional<Articulosdeprofecionales> find = repository.findById(articulos.getId());
-            if(find.isPresent()){
+            if (find.isPresent()) {
                 find.get().setFecha(articulos.getFecha());
                 find.get().setNocertificado(articulos.getNocertificado());
                 find.get().setEstatus("C");
                 Articulosdeprofecionales registro = repository.save(find.get());
                 if (registro != null) {
                     response.setArticulosdeprofecionales(registro);
-                    response.setSmg("¡Se registro de forma correcta al curso !");
+                    response.setSmg("¡Atualización exitosa!");
                 }
-            }else {
+            } else {
                 articulos.setFecha_registro(dateNow.FechaActual());
                 Articulosdeprofecionales registro = repository.save(articulos);
                 if (registro != null) {
                     response.setSmg("¡Se registro de forma correcta al curso !");
                 }
             }
-       }catch (Exception e){
+        } catch (Exception e) {
             response.setSmg("error");
-       }
-      return response;
+        }
+        return response;
     }
 
 
@@ -109,8 +120,8 @@ public class ArticulosDeProfecionaleslmp implements ArticulosProfecionalesServic
     public ConsultaCertificado bucarCer(String cer) {
         ConsultaCertificado certificado = new ConsultaCertificado();
         try {
-            Articulosdeprofecionales articulosdeprofecionales =  repository.findByNocertificadoAndEstatus(cer.trim(),"C");
-            Profecionales profecionales= repositoryProfecionales.findById(articulosdeprofecionales.getIdprofecional()).get();
+            Articulosdeprofecionales articulosdeprofecionales = repository.findByNocertificadoAndEstatus(cer.trim(), "C");
+            Profecionales profecionales = repositoryProfecionales.findById(articulosdeprofecionales.getIdprofecional()).get();
             Agencias agencias = repositoryAgencias.findById(profecionales.getIdagencia()).get();
             Articulos articulos = repositoryArticulos.findById(articulosdeprofecionales.getIdarticulo()).get();
             certificado.setCertificado(articulosdeprofecionales);
@@ -118,7 +129,7 @@ public class ArticulosDeProfecionaleslmp implements ArticulosProfecionalesServic
             certificado.setProfecionales(profecionales);
             certificado.setArticulos(articulos);
             certificado.setSmg("success");
-        }catch (Exception e){
+        } catch (Exception e) {
             certificado.setAgencias(new Agencias());
             certificado.setProfecionales(new Profecionales());
             certificado.setCertificado(new Articulosdeprofecionales());

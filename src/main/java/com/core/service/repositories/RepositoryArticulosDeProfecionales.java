@@ -1,6 +1,7 @@
 package com.core.service.repositories;
 
 
+import com.core.service.entities.Articulos;
 import com.core.service.entities.Articulosdeprofecionales;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.CrudRepository;
@@ -15,4 +16,5 @@ public interface RepositoryArticulosDeProfecionales extends CrudRepository<Artic
     Articulosdeprofecionales findByNocertificadoAndEstatus(String cer, String estatus);
 
     Iterable<Articulosdeprofecionales> findAll(Sort id);
+
 }

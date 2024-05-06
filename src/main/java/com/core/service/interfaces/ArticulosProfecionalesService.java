@@ -9,7 +9,7 @@ import com.core.service.entities.Articulosdeprofecionales;
 import java.util.List;
 
 public interface ArticulosProfecionalesService {
-    List<SolicitudesResponse> getAll();
+    List<SolicitudesResponse> getAll(String nombre);
     Articulosdeprofecionales getById(Integer id);
     GuardaProfecionalResponse save(Articulosdeprofecionales articulos);
     ConsultaCertificado bucarCer(String cer);
