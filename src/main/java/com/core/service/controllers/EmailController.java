@@ -67,6 +67,7 @@ public class EmailController {
                         <center>
                             <h1>¡Su correo fue activado correctamente!</h1>
                             <h2>Ahorra puede iniciar sesión en Funcaes</h2>
+                            <h4><a href='https://fnc-static.onrender.com/'>https://fnc-static.onrender.com</a></h4>
                         </center>
                         </body>
                 </html>

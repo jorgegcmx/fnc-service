@@ -30,7 +30,7 @@ public class EmailImp implements EmailService {
         message.setFrom("funcaes.mail@gmail.com");
         message.setTo(email);
         message.setSubject("Funcaes Activar Email");
-        message.setText("Da click en el siguiente enlace para activar tu cuenta, "+envUtil.getServerUrlPrefi()+"/email/activa/"+encriptaBase64.encode(email)+"");
+        message.setText("Da click en el siguiente enlace para activar tu cuenta, https://fnc-service.onrender.com/email/activa/"+encriptaBase64.encode(email)+"");
         emailSender.send(message);
         return "ok";
     }
