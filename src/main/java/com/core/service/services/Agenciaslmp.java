@@ -4,6 +4,7 @@ import com.core.service.entities.Agencias;
 import com.core.service.interfaces.AgenciasService;
 import com.core.service.repositories.RepositoryAgencias;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public class Agenciaslmp implements AgenciasService {
     private RepositoryAgencias repositoryAgencias;
     @Override
     public List<Agencias> getAllAgencias() {
-        return (List<Agencias>) repositoryAgencias.findAll();
+        return (List<Agencias>) repositoryAgencias.findAll(Sort.by(Sort.Direction.DESC, "idclientes"));
     }
 
     @Override
