@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 public interface RepositoryProfecionales extends CrudRepository<Profecionales, Integer> {
     Profecionales findByEmailcliente(String email);
 
-    Profecionales findByEmailclienteAndPasswordAndStatus(String email, String password,String status);
+    Profecionales findByEmailclienteAndPasswordAndActivado(String email, String password,String status);
 
     @Query(value = "SELECT nombrecliente FROM profecionales  WHERE idprofecional = ?1", nativeQuery = true)
     public String buscaPorIdSoloNombre(Integer id);

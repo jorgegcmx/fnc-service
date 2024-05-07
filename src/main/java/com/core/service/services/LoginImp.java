@@ -41,7 +41,7 @@ public class LoginImp implements LoginService {
 
         LoginResponse response = new LoginResponse();
         try {
-            Profecionales profecionales = repositoryProfecionales.findByEmailclienteAndPasswordAndStatus(request.getEmail(), request.getContrasena(),"SI");
+            Profecionales profecionales = repositoryProfecionales.findByEmailclienteAndPasswordAndActivado(request.getEmail(), request.getContrasena(),"SI");
             response.setUserId(profecionales.getIdprofecional());
             response.setIsLogged(true);
             response.setUser(profecionales.getEmailcliente());
