@@ -6,5 +6,5 @@ import java.util.List;
 public interface AgenciasService {
     List<Agencias> getAllAgencias();
     Agencias getAgenciasById(Integer id);
-    void saveAgencias(Agencias articulos);
+    Agencias saveAgencias(Agencias agencias);
 }

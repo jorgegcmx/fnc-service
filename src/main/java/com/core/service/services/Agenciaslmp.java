@@ -24,7 +24,7 @@ public class Agenciaslmp implements AgenciasService {
     }
 
     @Override
-    public void saveAgencias(Agencias articulos) {
-
+    public Agencias saveAgencias(Agencias agencias) {
+        return repositoryAgencias.save(agencias);
     }
 }

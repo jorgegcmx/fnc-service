@@ -26,6 +26,7 @@ public class LoginImp implements LoginService {
             response.setUserId(usuarios.getIdusuarios());
             response.setIsLogged(true);
             response.setUser(usuarios.getEmail());
+            response.setPermisos(true);
         }catch (Exception e){
             response.setUserId(null);
             response.setIsLogged(false);
@@ -44,6 +45,7 @@ public class LoginImp implements LoginService {
             response.setUserId(profecionales.getIdprofecional());
             response.setIsLogged(true);
             response.setUser(profecionales.getEmailcliente());
+
         }catch (Exception e){
             response.setUserId(null);
             response.setIsLogged(false);
