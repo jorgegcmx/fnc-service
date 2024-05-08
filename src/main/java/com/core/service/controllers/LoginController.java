@@ -45,4 +45,14 @@ public class LoginController {
     public ResponseEntity<LoginResponse> login_profesional(@RequestBody LogingRequest request){
         return new ResponseEntity<>(service.login_profesional(request), HttpStatus.OK);
     }
+
+    @Operation(summary = "Login agencias")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200" , description = MENSAJE_OBTENCION_DATOS, content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Profecionales.class)) } ),
+            @ApiResponse(responseCode = "404" , description = MENSAJE_DATOS_NO_ENCONTRADOS, content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Profecionales.class)) } )
+    })
+    @PostMapping(value = "/login_agencias", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<LoginResponse> login_agencias(@RequestBody LogingRequest request){
+        return new ResponseEntity<>(service.login_agencias(request), HttpStatus.OK);
+    }
 }

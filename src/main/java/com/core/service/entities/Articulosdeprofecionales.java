@@ -1,9 +1,6 @@
 package com.core.service.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,8 +28,12 @@ public class Articulosdeprofecionales {
     private String email_pay;
     private String total_pay;
     private String method_pay;
-    private String nombre_profesional;
-    private String nombre_curso;
-    private String nombre_agencia;
-    private Integer id_agencia;
+    @Column(name="nombre_profesional")
+    private String nombreprofesional;
+    @Column(name="nombre_curso")
+    private String nombrecurso;
+    @Column(name="nombre_agencia")
+    private String nombreagencia;
+    @Column(name="id_agencia")
+    private Integer idagencia;
 }

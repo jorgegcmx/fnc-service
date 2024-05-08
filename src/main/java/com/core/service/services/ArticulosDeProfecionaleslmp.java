@@ -42,8 +42,12 @@ public class ArticulosDeProfecionaleslmp implements ArticulosProfecionalesServic
     @Override
     public List<Articulosdeprofecionales> getAll(String nombre) {
         List<Articulosdeprofecionales> response = new ArrayList<>();
-         try {
-            response = repository.findAll(Sort.by(Sort.Direction.DESC, "id"));
+        try {
+            if (nombre.equalsIgnoreCase("1")) {
+                response = repository.findAll(Sort.by(Sort.Direction.DESC, "id"));
+            } else {
+                response = repository.findByNombreprofesionalContaining(nombre);
+            }
         } catch (Exception e) {
             return response;
         }
@@ -54,7 +58,12 @@ public class ArticulosDeProfecionaleslmp implements ArticulosProfecionalesServic
     public List<Articulosdeprofecionales> getByAgenciaId(Integer id, String nombre) {
         List<Articulosdeprofecionales> response = new ArrayList<>();
         try {
-            response = repository.findAll(Sort.by(Sort.Direction.DESC, "id"));
+            if (nombre.equalsIgnoreCase("1")) {
+                response = repository.findByIdagencia(id,Sort.by(Sort.Direction.DESC, "id"));
+            } else {
+                response = repository.findByIdagenciaAndNombreprofesionalContaining(id, nombre);
+            }
+
         } catch (Exception e) {
             return response;
         }
@@ -65,6 +74,24 @@ public class ArticulosDeProfecionaleslmp implements ArticulosProfecionalesServic
     public GuardaProfecionalResponse save(Articulosdeprofecionales articulos) {
         GuardaProfecionalResponse response = new GuardaProfecionalResponse();
         try {
+            if(articulos.getId() != null && articulos.getEstatus()!=null){
+                Optional<Articulosdeprofecionales> find = repository.findById(articulos.getId());
+                if (find.isPresent()) {
+                    find.get().setEmail_pay(articulos.getEmail_pay());
+                    find.get().setId_pay(articulos.getId_pay());
+                    find.get().setNombre_pay(articulos.getNombre_pay());
+                    find.get().setStatus_pay(articulos.getStatus_pay());
+                    find.get().setMethod_pay(articulos.getMethod_pay());
+                    find.get().setTotal_pay(articulos.getTotal_pay());
+                    Articulosdeprofecionales registro = repository.save(find.get());
+                    if (registro != null) {
+                        response.setArticulosdeprofecionales(registro);
+                        response.setSmg("¡El pago se registro correctamente!");
+                        return response;
+                    }
+                }
+            }
+
             if (articulos.getId() != null) {
                 Optional<Articulosdeprofecionales> find = repository.findById(articulos.getId());
                 if (find.isPresent()) {
@@ -75,20 +102,28 @@ public class ArticulosDeProfecionaleslmp implements ArticulosProfecionalesServic
                     if (registro != null) {
                         response.setArticulosdeprofecionales(registro);
                         response.setSmg("¡Atualización exitosa!");
+                        return response;
                     }
                 }
-            } else {
-                articulos.setFecha_registro(dateNow.FechaActual());
-                articulos.setNombre_curso(repositoryArticulos.buscaPorIdSoloNombre(articulos.getIdarticulo()));
-                articulos.setNombre_profesional(repositoryProfecionales.buscaPorIdSoloNombre(articulos.getIdprofecional()));
-                articulos.setId_agencia(repositoryProfecionales.buscaPorIdSoloAgenciaId(articulos.getIdprofecional()));
-                Agencias agencias = repositoryAgencias.findById(articulos.getId_agencia()).get();
-                articulos.setNombre_agencia(agencias.getRazon_social());
-                Articulosdeprofecionales registro = repository.save(articulos);
-                if (registro != null) {
-                    response.setSmg("¡Se registro de forma correcta al curso !");
-                }
             }
+
+                Optional<Articulosdeprofecionales> existe = repository.findByIdprofecionalAndIdarticulo(articulos.getIdprofecional(), articulos.getIdarticulo());
+                if (existe.isPresent()) {
+                    response.setSmg("¡Ya te encuentras registrado en este curso!");
+                } else {
+                    articulos.setFecha_registro(dateNow.FechaActual());
+                    articulos.setNombrecurso(repositoryArticulos.buscaPorIdSoloNombre(articulos.getIdarticulo()));
+                    articulos.setNombreprofesional(repositoryProfecionales.buscaPorIdSoloNombre(articulos.getIdprofecional()));
+                    articulos.setIdagencia(repositoryProfecionales.buscaPorIdSoloAgenciaId(articulos.getIdprofecional()));
+                    Agencias agencias = repositoryAgencias.findById(articulos.getIdagencia()).get();
+                    articulos.setNombreagencia(agencias.getRazon_social());
+                    Articulosdeprofecionales registro = repository.save(articulos);
+                    if (registro != null) {
+                        response.setSmg("¡Se registro de forma correcta al curso !");
+                        return response;
+                    }
+                }
+
         } catch (Exception e) {
             response.setSmg("error");
         }

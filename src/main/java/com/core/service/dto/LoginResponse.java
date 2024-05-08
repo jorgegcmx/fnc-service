@@ -8,4 +8,5 @@ public class LoginResponse {
     private Integer userId;
     private String user;
     private Boolean permisos;
+    private String perfil;
 }
