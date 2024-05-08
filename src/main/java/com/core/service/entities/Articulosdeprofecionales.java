@@ -31,4 +31,8 @@ public class Articulosdeprofecionales {
     private String email_pay;
     private String total_pay;
     private String method_pay;
+    private String nombre_profesional;
+    private String nombre_curso;
+    private String nombre_agencia;
+    private Integer id_agencia;
 }

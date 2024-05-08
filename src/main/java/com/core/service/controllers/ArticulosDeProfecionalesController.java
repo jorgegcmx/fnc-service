@@ -28,33 +28,44 @@ public class ArticulosDeProfecionalesController {
     private static final String MENSAJE_DATOS_NO_ENCONTRADOS = "Data not found";
     @Autowired
     ArticulosProfecionalesService service;
+
     @Operation(summary = "Listar los registros de cursos")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200" , description = MENSAJE_OBTENCION_DATOS, content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Articulosdeprofecionales.class)) } ),
-            @ApiResponse(responseCode = "404" , description = MENSAJE_DATOS_NO_ENCONTRADOS, content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Articulosdeprofecionales.class)) } )
+            @ApiResponse(responseCode = "200", description = MENSAJE_OBTENCION_DATOS, content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Articulosdeprofecionales.class))}),
+            @ApiResponse(responseCode = "404", description = MENSAJE_DATOS_NO_ENCONTRADOS, content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Articulosdeprofecionales.class))})
     })
     @GetMapping(value = "/lista/{nombre}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<SolicitudesResponse>> getAll(@PathVariable String nombre){
+    public ResponseEntity<List<Articulosdeprofecionales>> getAll(@PathVariable String nombre) {
         return new ResponseEntity<>(service.getAll(nombre), HttpStatus.OK);
+    }
+
+    @Operation(summary = "Listar los registros de cursos por agencia id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = MENSAJE_OBTENCION_DATOS, content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Articulosdeprofecionales.class))}),
+            @ApiResponse(responseCode = "404", description = MENSAJE_DATOS_NO_ENCONTRADOS, content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Articulosdeprofecionales.class))})
+    })
+    @GetMapping(value = "/lista/{id}/{nombre}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Articulosdeprofecionales>> getAgenciaid(@PathVariable Integer id, @PathVariable String nombre) {
+        return new ResponseEntity<>(service.getByAgenciaId(id, nombre), HttpStatus.OK);
     }
 
     @Operation(summary = "registro de curso")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200" , description = MENSAJE_OBTENCION_DATOS, content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Articulosdeprofecionales.class)) } ),
-            @ApiResponse(responseCode = "404" , description = MENSAJE_DATOS_NO_ENCONTRADOS, content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Articulosdeprofecionales.class)) } )
+            @ApiResponse(responseCode = "200", description = MENSAJE_OBTENCION_DATOS, content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Articulosdeprofecionales.class))}),
+            @ApiResponse(responseCode = "404", description = MENSAJE_DATOS_NO_ENCONTRADOS, content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Articulosdeprofecionales.class))})
     })
     @PostMapping(value = "/guarda", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<GuardaProfecionalResponse> save(@RequestBody Articulosdeprofecionales request){
+    public ResponseEntity<GuardaProfecionalResponse> save(@RequestBody Articulosdeprofecionales request) {
         return new ResponseEntity<>(service.save(request), HttpStatus.OK);
     }
 
     @Operation(summary = "registro de curso")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200" , description = MENSAJE_OBTENCION_DATOS, content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Articulosdeprofecionales.class)) } ),
-            @ApiResponse(responseCode = "404" , description = MENSAJE_DATOS_NO_ENCONTRADOS, content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Articulosdeprofecionales.class)) } )
+            @ApiResponse(responseCode = "200", description = MENSAJE_OBTENCION_DATOS, content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Articulosdeprofecionales.class))}),
+            @ApiResponse(responseCode = "404", description = MENSAJE_DATOS_NO_ENCONTRADOS, content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Articulosdeprofecionales.class))})
     })
     @GetMapping(value = "/burcarCer/{cer}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ConsultaCertificado> save(@PathVariable String cer){
+    public ResponseEntity<ConsultaCertificado> save(@PathVariable String cer) {
         return new ResponseEntity<>(service.bucarCer(cer), HttpStatus.OK);
     }
 }

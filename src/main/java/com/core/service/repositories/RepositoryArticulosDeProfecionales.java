@@ -15,6 +15,8 @@ public interface RepositoryArticulosDeProfecionales extends CrudRepository<Artic
 
     Articulosdeprofecionales findByNocertificadoAndEstatus(String cer, String estatus);
 
-    Iterable<Articulosdeprofecionales> findAll(Sort id);
+    List<Articulosdeprofecionales> findAll(Sort id);
+
+    Iterable<Articulosdeprofecionales> findBy(Sort id);
 
 }

@@ -40,70 +40,50 @@ public class ArticulosDeProfecionaleslmp implements ArticulosProfecionalesServic
     private RepositoryArticulos repositoryArticulos;
 
     @Override
-    public List<SolicitudesResponse> getAll(String nombre) {
-        long inicio = System.currentTimeMillis();
-        List<SolicitudesResponse> response = new ArrayList<>();
-        List<SolicitudesResponse> responseByNombre = new ArrayList<>();
-        try {
-            Iterable<Articulosdeprofecionales> solicitudes = repository.findAll(Sort.by(Sort.Direction.DESC, "id"));
-            solicitudes.forEach((so) -> {
-                SolicitudesResponse res = new SolicitudesResponse();
-                SolicitudesResponse resByNombre = new SolicitudesResponse();
-                String articulos = repositoryArticulos.buscaPorIdSoloNombre(so.getIdarticulo());
-                String profecionales = repositoryProfecionales.buscaPorIdSoloNombre(so.getIdprofecional());
-                //Agencias agencias = repositoryAgencias.findById(profecionales.getIdagencia()).get();
-                res.setId(so.getId());
-                res.setFecha(so.getFecha());
-                res.setCosto(so.getCosto());
-                res.setIdprofecional(so.getIdprofecional());
-                res.setEstatus(so.getEstatus().equalsIgnoreCase("C") ? "CERTIFICADO" : "REGISTRADO");
-                res.setIdarticulo(so.getIdarticulo());
-                res.setNocertificado(so.getNocertificado());
-                res.setEmail_pay(so.getEmail_pay());
-                res.setId_pay(so.getId_pay());
-                res.setMethod_pay(so.getMethod_pay());
-                res.setNombre_pay(so.getNombre_pay());
-                res.setTotal_pay(so.getTotal_pay());
-                res.setStatus_pay(so.getStatus_pay());
-                res.setNombre(profecionales);
-                res.setCurso(articulos);
-                response.add(res);
-                if (res.getNombre().contains(nombre)) {
-                    responseByNombre.add(res);
-                }
-            });
-
+    public List<Articulosdeprofecionales> getAll(String nombre) {
+        List<Articulosdeprofecionales> response = new ArrayList<>();
+         try {
+            response = repository.findAll(Sort.by(Sort.Direction.DESC, "id"));
         } catch (Exception e) {
             return response;
         }
-        long fin = System.currentTimeMillis();
-        double tiempo = (double) ((fin - inicio) / 1000);
-        System.out.println(tiempo + " segundos");
-
-        return responseByNombre.isEmpty()?response:responseByNombre;
+        return response;
     }
 
     @Override
-    public Articulosdeprofecionales getById(Integer id) {
-        return null;
+    public List<Articulosdeprofecionales> getByAgenciaId(Integer id, String nombre) {
+        List<Articulosdeprofecionales> response = new ArrayList<>();
+        try {
+            response = repository.findAll(Sort.by(Sort.Direction.DESC, "id"));
+        } catch (Exception e) {
+            return response;
+        }
+        return response;
     }
 
     @Override
     public GuardaProfecionalResponse save(Articulosdeprofecionales articulos) {
         GuardaProfecionalResponse response = new GuardaProfecionalResponse();
         try {
-            Optional<Articulosdeprofecionales> find = repository.findById(articulos.getId());
-            if (find.isPresent()) {
-                find.get().setFecha(articulos.getFecha());
-                find.get().setNocertificado(articulos.getNocertificado());
-                find.get().setEstatus("C");
-                Articulosdeprofecionales registro = repository.save(find.get());
-                if (registro != null) {
-                    response.setArticulosdeprofecionales(registro);
-                    response.setSmg("¡Atualización exitosa!");
+            if (articulos.getId() != null) {
+                Optional<Articulosdeprofecionales> find = repository.findById(articulos.getId());
+                if (find.isPresent()) {
+                    find.get().setFecha(articulos.getFecha());
+                    find.get().setNocertificado(articulos.getNocertificado());
+                    find.get().setEstatus("C");
+                    Articulosdeprofecionales registro = repository.save(find.get());
+                    if (registro != null) {
+                        response.setArticulosdeprofecionales(registro);
+                        response.setSmg("¡Atualización exitosa!");
+                    }
                 }
             } else {
                 articulos.setFecha_registro(dateNow.FechaActual());
+                articulos.setNombre_curso(repositoryArticulos.buscaPorIdSoloNombre(articulos.getIdarticulo()));
+                articulos.setNombre_profesional(repositoryProfecionales.buscaPorIdSoloNombre(articulos.getIdprofecional()));
+                articulos.setId_agencia(repositoryProfecionales.buscaPorIdSoloAgenciaId(articulos.getIdprofecional()));
+                Agencias agencias = repositoryAgencias.findById(articulos.getId_agencia()).get();
+                articulos.setNombre_agencia(agencias.getRazon_social());
                 Articulosdeprofecionales registro = repository.save(articulos);
                 if (registro != null) {
                     response.setSmg("¡Se registro de forma correcta al curso !");

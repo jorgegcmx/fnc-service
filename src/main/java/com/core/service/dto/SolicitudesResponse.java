@@ -22,4 +22,5 @@ public class SolicitudesResponse {
     private String method_pay;
     private String nombre;
     private String curso;
+    private String agnecias;
 }

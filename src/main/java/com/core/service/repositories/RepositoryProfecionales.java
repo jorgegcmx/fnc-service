@@ -13,4 +13,7 @@ public interface RepositoryProfecionales extends CrudRepository<Profecionales, I
 
     @Query(value = "SELECT nombrecliente FROM profecionales  WHERE idprofecional = ?1", nativeQuery = true)
     public String buscaPorIdSoloNombre(Integer id);
+
+    @Query(value = "SELECT idagencia FROM profecionales  WHERE idprofecional = ?1", nativeQuery = true)
+    public Integer buscaPorIdSoloAgenciaId(Integer id);
 }
