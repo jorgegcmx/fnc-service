@@ -25,6 +25,11 @@ public class Agenciaslmp implements AgenciasService {
     }
 
     @Override
+    public List<Agencias> getAllAgenciasActivas() {
+        return (List<Agencias>) repositoryAgencias.findByEstatusAndTipo("ACTIVA","AGENCIA");
+    }
+
+    @Override
     public Agencias getAgenciasById(Integer id) {
         return null;
     }

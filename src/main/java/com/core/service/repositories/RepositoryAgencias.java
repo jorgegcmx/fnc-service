@@ -10,7 +10,8 @@ import java.util.List;
 
 @Repository
 public interface RepositoryAgencias extends CrudRepository<Agencias,Integer> {
-    Object findAll(Sort id);
+    List<Agencias> findAll(Sort id);
+    List<Agencias> findByEstatusAndTipo(String estatus,String tipo);
     List<Agencias> findByIdclientes(Integer id);
     @Query(value = "SELECT * FROM agencias  WHERE email_cliente = ?1 and contrasena_cliente =?2", nativeQuery = true)
     public Agencias login(String email, String contrasena);

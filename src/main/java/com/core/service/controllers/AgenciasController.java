@@ -33,6 +33,16 @@ public class AgenciasController {
         return new ResponseEntity<>(service.getAllAgencias(nombre), HttpStatus.OK);
     }
 
+    @Operation(summary = "Listar Agencias")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200" , description = MENSAJE_OBTENCION_DATOS, content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Agencias.class)) } ),
+            @ApiResponse(responseCode = "404" , description = MENSAJE_DATOS_NO_ENCONTRADOS, content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Agencias.class)) } )
+    })
+    @GetMapping(value = "/lista/activas", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Agencias>> getAllAgenciasActivas(){
+        return new ResponseEntity<>(service.getAllAgenciasActivas(), HttpStatus.OK);
+    }
+
     @Operation(summary = "Guarda Agencias")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200" , description = MENSAJE_OBTENCION_DATOS, content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Agencias.class)) } ),
