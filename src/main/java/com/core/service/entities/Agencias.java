@@ -25,4 +25,6 @@ public class Agencias {
     private String rfc;
     private String razon_social;
     private Integer idusuarios_admin;
+    private String tipo;
+    private String estatus;
 }
