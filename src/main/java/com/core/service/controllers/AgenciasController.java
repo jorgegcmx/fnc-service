@@ -28,9 +28,9 @@ public class AgenciasController {
             @ApiResponse(responseCode = "200" , description = MENSAJE_OBTENCION_DATOS, content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Agencias.class)) } ),
             @ApiResponse(responseCode = "404" , description = MENSAJE_DATOS_NO_ENCONTRADOS, content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Agencias.class)) } )
     })
-    @GetMapping(value = "/lista", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Agencias>> getAll(){
-        return new ResponseEntity<>(service.getAllAgencias(), HttpStatus.OK);
+    @GetMapping(value = "/lista/{nombre}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Agencias>> getAll(@PathVariable String nombre){
+        return new ResponseEntity<>(service.getAllAgencias(nombre), HttpStatus.OK);
     }
 
     @Operation(summary = "Guarda Agencias")

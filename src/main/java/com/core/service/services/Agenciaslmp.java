@@ -15,8 +15,13 @@ public class Agenciaslmp implements AgenciasService {
     @Autowired
     private RepositoryAgencias repositoryAgencias;
     @Override
-    public List<Agencias> getAllAgencias() {
-        return (List<Agencias>) repositoryAgencias.findAll(Sort.by(Sort.Direction.DESC, "idclientes"));
+    public List<Agencias> getAllAgencias(String nombre) {
+        if(nombre.equalsIgnoreCase("1")){
+            return (List<Agencias>) repositoryAgencias.findAll(Sort.by(Sort.Direction.DESC, "idclientes"));
+        }else {
+            return (List<Agencias>) repositoryAgencias.findByIdclientes(Integer.parseInt(nombre));
+        }
+
     }
 
     @Override
