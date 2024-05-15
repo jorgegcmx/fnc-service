@@ -31,7 +31,11 @@ public class Agenciaslmp implements AgenciasService {
 
     @Override
     public Agencias getAgenciasById(Integer id) {
-        return null;
+        try {
+            return repositoryAgencias.findById(id).get();
+        }catch (Exception e){
+            return new Agencias();
+        }
     }
 
     @Override

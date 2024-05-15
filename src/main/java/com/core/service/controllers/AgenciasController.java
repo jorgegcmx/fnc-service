@@ -52,4 +52,14 @@ public class AgenciasController {
     public ResponseEntity<Agencias> save(@RequestBody Agencias request){
         return new ResponseEntity<>(service.saveAgencias(request), HttpStatus.OK);
     }
+
+    @Operation(summary = "Busca agencia por id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200" , description = MENSAJE_OBTENCION_DATOS, content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Agencias.class)) } ),
+            @ApiResponse(responseCode = "404" , description = MENSAJE_DATOS_NO_ENCONTRADOS, content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Agencias.class)) } )
+    })
+    @GetMapping(value = "/busca/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Agencias> save(@PathVariable Integer id){
+        return new ResponseEntity<>(service.getAgenciasById(id), HttpStatus.OK);
+    }
 }
