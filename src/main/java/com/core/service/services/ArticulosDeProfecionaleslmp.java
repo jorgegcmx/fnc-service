@@ -74,7 +74,7 @@ public class ArticulosDeProfecionaleslmp implements ArticulosProfecionalesServic
     public GuardaProfecionalResponse save(Articulosdeprofecionales articulos) {
         GuardaProfecionalResponse response = new GuardaProfecionalResponse();
         try {
-            if(articulos.getId() != null && articulos.getEstatus()!=null){
+            if(articulos.getId() != null && articulos.getEstatus()!=null && articulos.getNocertificado() == null){
                 Optional<Articulosdeprofecionales> find = repository.findById(articulos.getId());
                 if (find.isPresent()) {
                     find.get().setEmail_pay(articulos.getEmail_pay());
